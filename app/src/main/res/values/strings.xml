@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RxJavaTMDB</string>
+    <string name="api_key">2226851a4107b78891ce2c4164874047</string>
+</resources>
