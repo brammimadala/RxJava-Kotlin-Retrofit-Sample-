@@ -3,29 +3,29 @@ package com.lasys.rxjavatmdb.view
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lasys.rxjavatmdb.R
 import com.lasys.rxjavatmdb.adapter.CustomAdapter
+import com.lasys.rxjavatmdb.di.MyApplication
 import com.lasys.rxjavatmdb.model.Movie
 import com.lasys.rxjavatmdb.viewmodel.MainActivityViewModel
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerview: RecyclerView
-    private lateinit var mainActivityViewModel: MainActivityViewModel
+
+    @Inject
+    lateinit var mainActivityViewModel: MainActivityViewModel
     private var movies: ArrayList<Movie> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerview = findViewById(R.id.rvMovies)
-
-        mainActivityViewModel = ViewModelProviders.of(this).get(
-            MainActivityViewModel::class.java
-        )
         getPopularMoviesRx()
     }
 

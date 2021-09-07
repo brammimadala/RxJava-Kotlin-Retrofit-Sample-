@@ -1,23 +1,17 @@
 package com.lasys.rxjavatmdb.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.lasys.rxjavatmdb.model.Movie
-import com.lasys.rxjavatmdb.model.MovieDBResponse
-import com.lasys.rxjavatmdb.repository.MovieRepository
+import com.lasys.rxjavatmdb.repository.MoviesRepository
+import javax.inject.Inject
 
 
-class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
-    private var movieRepository = MovieRepository(application)
-
+class MainActivityViewModel @Inject constructor(
+    private val movieRepository: MoviesRepository
+) : ViewModel() {
     fun getAllMovies(): LiveData<List<Movie>> {
         return movieRepository.getMoviesLiveData()
     }
-
-    fun clear() {
-        movieRepository.clear()
-    }
-
 
 }

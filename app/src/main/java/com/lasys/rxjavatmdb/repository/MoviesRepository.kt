@@ -1,4 +1,3 @@
-/*
 package com.lasys.rxjavatmdb.repository
 
 import android.app.Application
@@ -7,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lasys.rxjavatmdb.R
 import com.lasys.rxjavatmdb.model.Movie
 import com.lasys.rxjavatmdb.model.MovieDBResponse
-import com.lasys.rxjavatmdb.service.RetrofitInstance
+import com.lasys.rxjavatmdb.service.MoviesDataService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -16,9 +15,11 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class MovieRepository @Inject constructor(app: Application)
-{
-
+class MoviesRepository @Inject constructor
+    (
+    app: Application,
+    private var apiService: MoviesDataService
+) {
     private var application = app
     private var compositeDisposable = CompositeDisposable()
     private var moviesLiveData = MutableLiveData<List<Movie>>()
@@ -27,7 +28,7 @@ class MovieRepository @Inject constructor(app: Application)
 
     fun getMoviesLiveData(): MutableLiveData<List<Movie>> {
 
-        val getMoviesDataService = RetrofitInstance.getService()
+        val getMoviesDataService = apiService
         movieDBResponseObservable = getMoviesDataService.getPopularMoviesWithRx(
             application.applicationContext.getString(
                 R.string.api_key
@@ -54,14 +55,10 @@ class MovieRepository @Inject constructor(app: Application)
                     }
 
                 })
-
         )
 
         return moviesLiveData
 
     }
 
-    fun clear() {
-        compositeDisposable.clear()
-    }
-}*/
+}
